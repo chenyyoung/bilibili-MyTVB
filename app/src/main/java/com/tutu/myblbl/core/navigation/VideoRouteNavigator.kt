@@ -9,6 +9,7 @@ import com.tutu.myblbl.ui.activity.MainActivity
 import com.tutu.myblbl.ui.activity.PlayerActivity
 import com.tutu.myblbl.feature.detail.VideoDetailFragment
 import com.tutu.myblbl.feature.player.PlaybackStartupTrace
+import com.tutu.myblbl.feature.player.settings.PlayerSettingsStore
 import com.tutu.myblbl.core.common.ext.isOpenDetailFirstEnabled
 import com.tutu.myblbl.core.common.ext.toast
 import com.tutu.myblbl.core.common.log.AppLog
@@ -48,11 +49,13 @@ object VideoRouteNavigator {
             }
         }
         AppLog.d(TAG, "openVideo: starting PlayerActivity")
+        val shouldUseHistoryProgress = seekPositionMs <= 0L &&
+            PlayerSettingsStore.load(context).resumePlayback
         PlayerActivity.start(
             context = context,
             video = video,
             seekPositionMs = seekPositionMs.takeIf { it > 0L }
-                ?: video.historyProgress * 1000L,
+                ?: if (shouldUseHistoryProgress) video.historyProgress * 1000L else 0L,
             playQueue = playQueue,
             startEpisodeIndex = startEpisodeIndex,
             startupTraceId = traceId,
