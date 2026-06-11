@@ -37,6 +37,7 @@ import com.tutu.myblbl.feature.me.MeViewModel
 import com.tutu.myblbl.feature.search.SearchViewModel
 import com.tutu.myblbl.feature.player.LivePlayerViewModel
 import com.tutu.myblbl.feature.player.danmaku.LiveDanmakuManager
+import com.tutu.myblbl.feature.player.douyin.DouyinModeManager
 import com.tutu.myblbl.ui.fragment.main.MainNavigationViewModel
 import com.tutu.myblbl.feature.player.VideoPlayerViewModel
 import com.tutu.myblbl.feature.series.SeriesDetailViewModel
@@ -106,6 +107,7 @@ val viewModelModule = module {
 val eventModule = module {
     single { AppEventHub() }
     single { AppSettingsDataStore(androidContext()) }
+    single { DouyinModeManager(get(), get()) }
 }
 
 val appModules = listOf(
